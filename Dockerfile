@@ -20,7 +20,7 @@ COPY --from=build /app/RockPaperScissorsDA/out .
 
 # Copy the published output and appsettings.json file
 COPY --from=build /app/RockPaperScissorsDA/out .
-COPY RockPaperScissorsDA/appsettings.json .
+COPY appsettings.json .
 
 # Set environment variables for configurations
 ENV Logging__LogLevel__Default=Information
