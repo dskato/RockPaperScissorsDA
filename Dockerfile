@@ -16,6 +16,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
+
+ENV Logging__LogLevel__Default=Information
+ENV Logging__LogLevel__Microsoft.AspNetCore=Warning
+ENV AllowedHosts=*
+ENV ConnectionStrings__MySqlConnection="workstation id=NobelTest.mssql.somee.com;packet size=4096;user id=dskato1219_SQLLogin_1;pwd=acyn4zmwvu;data source=NobelTest.mssql.somee.com;persist security info=False;initial catalog=NobelTest"
+
 # Expose port 80 for the application
 EXPOSE 80
 
