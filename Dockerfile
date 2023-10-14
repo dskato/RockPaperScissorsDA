@@ -1,22 +1,13 @@
-# Use the official .NET 7 SDK image as the build environment
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 WORKDIR /app
 
-# Copy the project files to the container
-COPY RockPaperScissorsDA/RockPaperScissorsDA.csproj RockPaperScissorsDA/
-
-# Restore NuGet packages and build the project
+COPY . ./
 RUN dotnet restore
+RUN dotnet publish -c Release -o out
 
-# Publish the application for release
-RUN dotnet publish -c Release -o /app/publish
-
-# Use the official .NET 7 runtime image for the final image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-
-# Copy the published application from the build stage
-COPY --from=build /app/publish .
+COPY --from=build-env /app/out .
 
 # Set environment variables
 ENV Logging__LogLevel__Default=Information
