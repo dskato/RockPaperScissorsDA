@@ -20,3 +20,7 @@ Enter any input to the API and read the options and play!:
 
 
 
+Database is also hosted in a free service and uses 'code first'!
+![image](https://github.com/dskato/RockPaperScissorsDA/assets/24595910/c3ba50ce-2be3-4a14-9614-f898557bf7c0)
+
+
