@@ -1,22 +1,22 @@
 # Stage 1: Build the project
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copy and restore the project files
+# Copy the project files and restore as distinct layers
 COPY RockPaperScissorsDA/RockPaperScissorsDA.csproj RockPaperScissorsDA/
 RUN dotnet restore RockPaperScissorsDA/RockPaperScissorsDA.csproj
 
 # Copy the entire project and publish
 COPY . .
-WORKDIR /app/RockPaperScissorsDA
-RUN dotnet publish -c Release -o out
+WORKDIR /src/RockPaperScissorsDA
+RUN dotnet publish -c Release -o /app/publish
 
 # Stage 2: Create the final runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 
-# Copy the published output and appsettings.json file
-COPY --from=build /app/RockPaperScissorsDA/out .
+# Copy the published output from the build stage
+COPY --from=build /app/publish .
 
 # Set environment variables for configurations
 ENV Logging__LogLevel__Default=Information
@@ -27,4 +27,4 @@ ENV ConnectionStrings__MySqlConnection="workstation id=NobelTest.mssql.somee.com
 EXPOSE 80
 EXPOSE 443
 
-ENTRYPOINT ["dotnet", "RockPaperScissorsDA.dll"]
+ENTRYPOINT ["./RockPaperScissorsDA"]
