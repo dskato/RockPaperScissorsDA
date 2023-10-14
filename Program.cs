@@ -1,3 +1,9 @@
+/*
+David Araujo
+Practical test for NOBEL.
+Date: 14/10/2023
+*/
+
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
